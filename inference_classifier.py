@@ -3,12 +3,20 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
+# Đặt tên file video ,để là None để dùng webcam
+video_path = "WIN_20250623_21_12_53_Pro.mp4"  #file video đặt cùng thư mục file này nên chỉ cần tên
+
 # Tải mô hình từ file pickle
 model_dict = pickle.load(open('./model.p', 'rb'))
 model = model_dict['model']
 
-# Khởi tạo webcam
-cap = cv2.VideoCapture(0)
+# Khởi tạo webcam hoặc video file
+cap = cv2.VideoCapture(video_path if video_path else 0)
+
+# Kiểm tra xem video có mở thành công không
+if not cap.isOpened():
+    print("Không thể mở video hoặc webcam.")
+    exit()
 
 # Khởi tạo các module của MediaPipe
 mp_hands = mp.solutions.hands
@@ -27,7 +35,7 @@ while True:
     x_ = []  # Lưu trữ các tọa độ x
     y_ = []  # Lưu trữ các tọa độ y
 
-    # Đọc ảnh từ webcam
+    # Đọc ảnh từ webcam hoặc video
     ret, frame = cap.read()
 
     if not ret:
@@ -91,7 +99,7 @@ while True:
 
     # Hiển thị kết quả
     cv2.imshow('frame', frame)
-
+    print("Bấm \"Q\" ở terminal để dừng");
     # Thoát khi nhấn phím 'q'
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
