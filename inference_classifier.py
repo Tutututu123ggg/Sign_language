@@ -4,7 +4,7 @@ import mediapipe as mp
 import numpy as np
 
 # Đặt tên file video ,để là None để dùng webcam
-video_path = "WIN_20250623_21_12_53_Pro.mp4"  #file video đặt cùng thư mục file này nên chỉ cần tên
+video_path = None  #file video đặt cùng thư mục file này nên chỉ cần tên
 
 # Tải mô hình từ file pickle
 model_dict = pickle.load(open('./model.p', 'rb'))
@@ -74,7 +74,7 @@ while True:
                 data_aux.append(y - min(y_))  # Tọa độ y chuẩn hóa
 
         # Đảm bảo rằng data_aux có 42 đặc trưng, nếu không, padding với 0
-        max_len = 42  # Mô hình yêu cầu 42 đặc trưng
+        max_len = 84  # Mô hình yêu cầu 42 đặc trưng
         if len(data_aux) > max_len:
             data_aux = data_aux[:max_len]  # Cắt bớt nếu quá dài
         elif len(data_aux) < max_len:
